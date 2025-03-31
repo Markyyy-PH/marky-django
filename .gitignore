@@ -11,7 +11,7 @@ __pycache__/
 media/
 
 # Ignore static files
-static/
+static/git
 
 # Ignore VS Code settings
 .vscode/
