@@ -15,10 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-y)!e_5#v!*wb3!rfr@1y)sp*@se_$krx0cbh)!))os58rxr_87'
 
@@ -41,13 +37,15 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'corsheaders',  # Add corsheaders for handling cross-origin requests (optional, for APIs)
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Add this line if using CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF middleware is here
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -124,16 +122,46 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL  = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
-    'marky/static',
+    BASE_DIR / 'marky/static',
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# SMTP configuration
+# For sending emails via Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ikawlangmwa@gmail.com'  # Replace with your Gmail address
+EMAIL_HOST_PASSWORD = 'cyme fywx jvat csif'  # Replace with the generated app password
+
+
+# CSRF Settings
+CSRF_COOKIE_HTTPONLY = True  # Prevents access to the CSRF token via JavaScript (recommended for security)
+CSRF_COOKIE_SECURE = False   # Set to True if using HTTPS
+CSRF_USE_SESSIONS = True     # Use sessions for CSRF token storage
+
+# Session Settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session backend
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 5  # Session lasts for 5 days (can be adjusted)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Automatically expire the session when the browser closes
+
+# CORS Settings (if applicable)
+CORS_ALLOW_ALL_ORIGINS = True  # Enable all origins for testing (adjust for production)
