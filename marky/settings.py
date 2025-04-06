@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'orders',
     'corsheaders',  # Add corsheaders for handling cross-origin requests (optional, for APIs)
 ]
 
